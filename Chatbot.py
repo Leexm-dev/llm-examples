@@ -9,14 +9,12 @@ from langchain.prompts import PromptTemplate
 import os
 import asyncio
 
-# API tokens
 HUGGINGFACE_API_TOKEN = "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"
 
 if not HUGGINGFACE_API_TOKEN:
     st.error("HUGGINGFACE_API_TOKEN is not set.")
     st.stop()
 
-# Initialize session states
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -107,7 +105,7 @@ def extract_text(uploaded_files):
             for page in pdf_reader.pages:
                 text += page.extract_text() or ""
         elif file_type == "txt":
-            text += file.read().decode("utf-8")  # Assuming UTF-8 encoding for text files
+            text += file.read().decode("utf-8") 
         else:
             st.warning(f"Unsupported file type: {file.name}. Only PDFs and .txt files are supported.")
     
@@ -115,7 +113,6 @@ def extract_text(uploaded_files):
         st.error("No text could be extracted from the uploaded files.")
     return text.strip()
 
-# Update the main function to use the new extraction method
 def main():
     """Main application function."""
     st.set_page_config("Multi File Chatbot", page_icon=":robot:", layout="wide")
@@ -147,7 +144,6 @@ def main():
             st.session_state.messages = []
             st.experimental_rerun()
     
-    # Display the chat history
     display_chat()
     
     # Chat Input
@@ -164,6 +160,5 @@ def main():
                 response = asyncio.run(process_user_input(prompt))
                 st.markdown(response)
 
-# Run the main application
 if __name__ == "__main__":
     main()
